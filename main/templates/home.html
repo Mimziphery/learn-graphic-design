@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+
+            {% load static %}
+            <img class="d-block w-100" src="{% static 'main/psbaner.jpg' %}" alt="First slide">
+
+        </div>
+        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}" data-interval="100">
+
+            {% load static %}
+            <img class="d-block w-100" src="{% static 'main/aibaner.jpg' %}" alt="Second slide">
+
+        </div>
+        <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}" data-interval="100">
+            {% load static %}
+            <img class="d-block w-100" src="{% static 'main/idbaner.jpg' %}" alt="Third slide">
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+
+    </div>
+</div>
+<section section class="container-xxl flex pt-5">
+    <p class="h4 fontRoboto text-dark pb-4 fw-bold">Quick Access: </p>
+    <div class="row container">
+        {% for task in tasks %}
+        <div class="p-2 row border rounded m-5 col-md-4 window mx-auto" style="width:350px; height: 230px;">
+            <div class="row" style="position: relative;">
+                <a href="{% url 'remove_task_from_quickAccsses' task.id %}">
+                    <button type="button" class="btn-close pull-right row" aria-label="Close"
+                    style="display: block; position:absolute; top:-7px; right:-5px;" onclick="deletefromHomePage(this)"></button>
+                </a>
+            </div>
+            <div>
+                <a href="tasks/{{task.id}}" style="text-decoration: none;">
+                    {% load static %}
+                    <img src="{% static 'main/folder.png' %}" style="height: 40px; width: 50px;" class="ms-2 mt-3 row">
+                    <p hidden> {{task.id}}
+                    <p class="fontRoboto text-dark row ps-2 pt-3 ms-2 fw-bold">{{task.name}}</p>
+                    <p class="fontRoboto text-dark row ps-2 ms-2 fw-lighter">{{task.course}}</p>
+                    <p class="fontRoboto text-dark row ps-2 ms-2 fw-lighter">{{task.status}}</p>
+                </a>
+            </div> 
+        </div>
+        {% endfor %}
+    </div>
+    
+
+</section>
+
+</html>
+{% endblock %}

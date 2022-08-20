@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="jumbotron jumbotron-fluid py-5" style="background-color: #1a1e21; height: 350px;">
+    <div class="container">
+        <h1 class="display-4 text-white fontRoboto">
+            <a href="/{{course.name}}" style="text-decoration: none; color: inherit;">{{course.name}}</a> > <span class="font-weight-bold display-4 text-white fontRobot fw-bold">{{lesson.name}}</span> </h1>
+        <p class="lead text-white fontRoboto">{{lesson.short_description}}</p>
+        <p class="lead text-white fontRoboto pt-1" style="font-size: 16px;">{{lesson.long_description}} </p>
+
+        <div class="pt-3">
+            <p class="fontRoboto text-white">Taught by professor</p>
+            <p class="fontRoboto text-white">Posted on: 07.07.2022</p>
+        </div>
+    </div>
+</div>
+<div class="container flex my-5 py-3 m-auto rounded border">
+    <div>
+        <section class="col-md ms-1 mb-0 pb-0">
+    
+            <iframe  width="100%" height="500px" src="{{ lesson.video|safe }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        </section>
+        <hr>
+        <section class="mt-0">
+            <div class="ps-2 pb-1 rounded ">
+             <p class="fontRoboto text-dark fw-bold ps-1 pt-3" style="font-size: 20px;">Lesson Content:</p>
+             <ol class="fontRoboto text-dark pe-3">
+                {% for content in contents %}
+                 <li class="p-1 fontRoboto text-dark">{{content}}</li>
+                 {% endfor %}
+             </ol>
+            </div>
+         </section>
+    </div>
+    <hr>
+    <p class="fontRoboto text-dark fw-bold ps-2" style="font-size: 20px;">Video Description:</p>
+    <p class="fontRoboto text-dark pt-3 lh-lg mx-2">{{lesson.video_description}}
+    </p>
+</div>
+
+
+{% endblock %}

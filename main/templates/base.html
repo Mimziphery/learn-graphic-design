@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+        crossorigin="anonymous"></script>
+        <script>
+            function checkBox(box){
+                console.log(box);
+
+                var id = box.value;
+                console.log(id);
+                if (box.checked == true){
+                    const xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", "/tasks/"+ id + "/true");
+                    xhttp.send();
+                }
+                else{
+                    const xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", "/tasks/"+ id + "/false");
+                    xhttp.send();
+                }
+            }
+
+            $(document).ready(
+            function(){
+                $('input:file').change(
+                    function(){
+                        if ($(this).val()) {
+                            $('button:submit').attr('disabled',false);
+                } 
+            }
+            );
+            });
+
+            function taskSubmited(sumbitButton, id){
+                submitButton.disabled = "true";
+                submitButton.innerHTML ="Submited";
+                var editButton = document.getElementById("editButton");
+                editButton.hidden = false;
+
+                const xhttp = new XMLHttpRequest();
+                    xhttp.open("GET", "/tasks/"+ id + "/submit");
+                    xhttp.send();
+
+            }
+
+            function taskEdit(editButton){
+                editButton.hidden = "true";
+                var submitButton = document.getElementById("submitButton");
+                submitButton.disabled = "false";
+
+            }
+
+        </script>
+    <style>
+        .fontRoboto {
+            font-family: Roboto, sans-serif;
+            color: white;
+        }
+
+        .carousel .carousel-inner{
+            height: 380px;
+        }
+        .carousel-inner .carousel-item img{
+        min-height:380px;
+        object-fit:cover;
+        }
+
+        @media(max-width:768px){
+        .carousel .carousel-inner{
+        height:auto}   
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light font" style="background-color: #41729F!important;">
+        <a class="navbar-brand" href="/">
+            {% load static %}
+            <img class="d-line-block align-top ms-3" src="{% static 'main/logogd1.svg' %}" width="40" height="40" />
+
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a href="#" id="dropdownMenu" class="fontRoboto nav-link
+                dropdown-toggle active text-white m-auto" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Courses
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-start mt-0 pt-0 w-25 ms-5" aria-labelledby="dropdownMenu"
+                        style="background-color: #41729F!important;">
+                        {% for course in courses %}
+                        <li><a class="dropdown-item fontRoboto" href="/{{course.name}}">{{course.name}}</a></li>
+                        {% endfor%}
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ms-auto text-center">
+                <li class="nav-item active">
+                    <a href="/tasks" class="fontRoboto nav-link active px-4 my-2 text-white m-auto ">
+                        Tasks
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a href="#" id="userDropdown" class="fontRoboto nav-link
+                dropdown-toggle active px-4 text-white m-auto my-2" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        User
+                    </a>
+                    <ul class="dropdown-menu mt-0 pt-0 dropdown-menu-end" aria-labelledby="userDropdown"
+                        style="background-color: #41729F!important;">
+                        <li><a class="dropdown-item fontRoboto">Profile</a></li>
+                        <li><a class="dropdown-item fontRoboto">Logout</a></li>
+
+                    </ul>
+                </li>
+
+
+            </ul>
+
+        </div>
+    </nav>
+    <div id="content" name="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-white text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span></span>
+            </div>
+            <!-- Left -->
+
+            <!-- Right -->
+            <div>
+                <a href="" class="me-4 link-grayish">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 link-grayish">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 link-grayish">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="" class="me-4 link-grayish">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 link-grayish">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="" class="me-4 link-grayish">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+
+        <!-- Section: Links  -->
+        <section class="">
+            <div class="container text-center text-md-start mt-5">
+                <!-- Grid row -->
+                <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!-- Content -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            <i class="fas fa-gem me-3 text-grayish"></i>Learn Graphic Design
+                        </h6>
+                        <p>
+                            Learn Graphic Design is a high-fidelity prototype developed for a faculty subject "Design of Human Computer
+                            Interaction".
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Products
+                        </h6>
+                        <p>
+                            <a href="#!" class="text-reset">Graphic Design Course</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">Photoshop Course</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">Illustrator Course</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">InDesign Course</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Useful links
+                        </h6>
+                        <p>
+                            <a href="#!" class="text-reset">Pricing</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">Settings</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">Help</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">About Us</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                        <p><i class="fas fa-home me-3 text-grayish"></i> Virtual Company from Macedonia</p>
+                        <p>
+                            <i class="fas fa-envelope me-3 text-grayish"></i>
+                            mimozamickoska@gmail.com
+                        </p>
+                        <p><i class="fas fa-phone me-3 text-grayish"></i> +389 76 434 742 </p>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row -->
+            </div>
+        </section>
+        <!-- Section: Links  -->
+
+        <!-- Copyright -->
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
+            © 2022 Copyright:
+            <a class="text-reset fw-bold" href="">Learn Graphic Design</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+</body>
+
+</html>

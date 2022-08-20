@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="jumbotron jumbotron-fluid py-5" style="background-color: #1a1e21; height: 350px;">
+    <div class="container">
+        <h1 class="display-4 text-white fontRoboto fw-bold">{{course.name}}</h1>
+        <p class="lead text-white fontRoboto">{{course.short_description}}</p>
+        <p class="lead text-white fontRoboto pt-1" style="font-size: 16px;">{{course.long_description}}
+        </p>
+        <div class="pt-3">
+            <p class=" text-white">taught by professor</p>
+            <p class="text-white">duration: 1 year</p>
+        </div>
+    
+    </div>
+</div>
+</header>
+<section class="container-xxl flex pt-5">
+    <p class="h4 fontRoboto text-dark pb-4">Course Content: </p>
+    {% for lesson in lessons %}
+    <div class="row border rounded p-2">
+        <p class="text-dark fontRoboto my-3">
+            <a href="{{course.name}}/{{lesson.name}}">{{lesson.name}}</a>
+        </p>
+    </div>
+    {% endfor %}
+    </div>
+
+</section>
+{% endblock %}
