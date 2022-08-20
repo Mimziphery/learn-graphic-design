@@ -79,6 +79,7 @@
         .carousel .carousel-inner{
         height:auto}   
         }
+
         .btn-color{
             background-color: #0e1c36;
             color: #fff;
@@ -137,12 +138,12 @@
                     <a href="#" id="userDropdown" class="fontRoboto nav-link
                 dropdown-toggle active px-4 text-white m-auto my-2" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        User
+                        {{request.user}}
                     </a>
                     <ul class="dropdown-menu mt-0 pt-0 dropdown-menu-end" aria-labelledby="userDropdown"
                         style="background-color: #41729F!important;">
                         <li><a class="dropdown-item fontRoboto">Profile</a></li>
-                        <li><a class="dropdown-item fontRoboto">Logout</a></li>
+                        <li><a class="dropdown-item fontRoboto" href="logout">Logout</a></li>
 
                     </ul>
                 </li>

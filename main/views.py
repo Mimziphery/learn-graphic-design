@@ -3,6 +3,7 @@ from unicodedata import name
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Course, Lesson, Task
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(response):
@@ -18,6 +19,7 @@ def remove_task_from_quickAccsses(response,id):
     courses = Course.objects.all()
     return render(response, "home.html", {"tasks": tasks, "courses": courses})
 
+@login_required(login_url='/login')
 def tasks(response):
     tasks = Task.objects.all()
     courses = Course.objects.all()
@@ -42,6 +44,7 @@ def photographyCourse(response):
     
     return render(response, "course.html",{"courses": courses, "course": course, "lessons": lessons} )
 
+@login_required(login_url='/login')
 def illustration_lesson(response, lessonName):
     courses = Course.objects.all()
     course = Course.objects.get(name='Illustration')
@@ -49,6 +52,7 @@ def illustration_lesson(response, lessonName):
     contents = str(lesson.contents).split(",");
     return render(response, "lesson.html", {"courses": courses, "course": course, "contents": contents, "lesson": lesson})
 
+@login_required(login_url='/login')
 def photography_lesson(response, lessonName):
     courses = Course.objects.all()
     course = Course.objects.get(name='Photography')
@@ -56,6 +60,7 @@ def photography_lesson(response, lessonName):
     contents = str(lesson.contents).split(",");
     return render(response, "lesson.html", {"courses": courses, "course": course, "contents": contents, "lesson": lesson})
 
+@login_required(login_url='/login')
 def typography_lesson(response, lessonName):
     courses = Course.objects.all()
     course = Course.objects.get(name='Typography')
@@ -63,6 +68,7 @@ def typography_lesson(response, lessonName):
     contents = str(lesson.contents).split(",");
     return render(response, "lesson.html", {"courses": courses, "course": course, "contents": contents, "lesson": lesson})
 
+@login_required(login_url='/login')
 def task(response, taskid):
     courses = Course.objects.all()
     task = Task.objects.get(id=taskid)
@@ -70,18 +76,21 @@ def task(response, taskid):
     task.save()
     return render(response, "task.html", {"courses": courses, "task": task})
 
+@login_required(login_url='/login')
 def taskTrue(response, taskid):
     task = Task.objects.get(id=taskid)
     task.quickA = True
     task.save()
     return HttpResponse('')
 
+@login_required(login_url='/login')
 def taskFalse(response, taskid):
     task = Task.objects.get(id=taskid)
     task.quickA = False
     task.save()
     return HttpResponse('')
-
+    
+@login_required(login_url='/login')
 def taskFinished(response, taskid):
     task = Task.objects.get(id=taskid)
     task.status = "Submited today"

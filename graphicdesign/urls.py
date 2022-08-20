@@ -21,6 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('register/', v.register, name="register"),
+    path('login/', v.loginPage, name="loginPage"),
+    path('logout/', v.logoutUser, name="logoutUser"),
     path('Illustration', include('main.urls')),
     path('Illustration/<str:lessonName>', include('main.urls')),
     path('Photography/<str:lessonName>', include('main.urls')),
