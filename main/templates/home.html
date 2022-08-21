@@ -38,6 +38,7 @@
 
     </div>
 </div>
+{% if request.user.is_authenticated %}  
 <section section class="container-xxl flex pt-5">
     <p class="h4 fontRoboto text-dark pb-4 fw-bold">Quick Access: </p>
     <div class="row container">
@@ -64,6 +65,7 @@
         {% endif %}
         {% endfor %}
     </div>
+    {%endif%}
     
 
 </section>

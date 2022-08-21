@@ -6,13 +6,16 @@ from .models import Course, Lesson, Task, Student
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-@login_required(login_url='/login')
+
 def index(request):
-    tasks = Task.objects.all().filter(quickA=True)
     courses = Course.objects.all()
-    user = request.user;
-    student = Student.objects.get(user=user)
-    return render(request, "home.html", {"tasks": tasks, "courses": courses, "student": student})
+    if request.user.is_authenticated:
+        tasks = Task.objects.all().filter(quickA=True)
+        user = request.user;
+        student = Student.objects.get(user=user)
+        return render(request, "home.html", {"tasks": tasks, "courses": courses, "student": student})
+    else:
+        return render(request, "home.html", {"courses": courses})
 
 @login_required(login_url='/login')
 def remove_task_from_quickAccsses(response,id):
