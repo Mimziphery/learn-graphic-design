@@ -18,13 +18,15 @@ def index(request):
         return render(request, "home.html", {"courses": courses})
 
 @login_required(login_url='/login')
-def remove_task_from_quickAccsses(response,id):
+def remove_task_from_quickAccsses(request,id):
+    user = request.user;
+    student = Student.objects.get(user=user)
     task = Task.objects.get(id=id)
     task.quickA = False
     task.save()
     tasks = Task.objects.all().filter(quickA=True)
     courses = Course.objects.all()
-    return render(response, "home.html", {"tasks": tasks, "courses": courses})
+    return render(request, "home.html", {"tasks": tasks, "courses": courses, "student": student})
 
 @login_required(login_url='/login')
 def tasks(response):
