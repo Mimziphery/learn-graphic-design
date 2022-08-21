@@ -41,7 +41,8 @@
 <section section class="container-xxl flex pt-5">
     <p class="h4 fontRoboto text-dark pb-4 fw-bold">Quick Access: </p>
     <div class="row container">
-        {% for task in tasks %}
+        {% for task in student.tasks.all %}
+        {% if task.quickA %}
         <div class="p-2 row border rounded m-5 col-md-4 window mx-auto" style="width:350px; height: 230px;">
             <div class="row" style="position: relative;">
                 <a href="{% url 'remove_task_from_quickAccsses' task.id %}">
@@ -60,6 +61,7 @@
                 </a>
             </div> 
         </div>
+        {% endif %}
         {% endfor %}
     </div>
     

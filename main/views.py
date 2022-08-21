@@ -2,15 +2,19 @@ import imp
 from unicodedata import name
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Course, Lesson, Task
+from .models import Course, Lesson, Task, Student
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-def index(response):
+@login_required(login_url='/login')
+def index(request):
     tasks = Task.objects.all().filter(quickA=True)
     courses = Course.objects.all()
-    return render(response, "home.html", {"tasks": tasks, "courses": courses})
+    user = request.user;
+    student = Student.objects.get(user=user)
+    return render(request, "home.html", {"tasks": tasks, "courses": courses, "student": student})
 
+@login_required(login_url='/login')
 def remove_task_from_quickAccsses(response,id):
     task = Task.objects.get(id=id)
     task.quickA = False
@@ -77,15 +81,21 @@ def task(response, taskid):
     return render(response, "task.html", {"courses": courses, "task": task})
 
 @login_required(login_url='/login')
-def taskTrue(response, taskid):
-    task = Task.objects.get(id=taskid)
+def taskTrue(request, taskid):
+    #task = Task.objects.get(id=taskid)
+    user = request.user;
+    student = Student.objects.get(user=user)
+    task = student.tasks.all().get(id=taskid)
     task.quickA = True
     task.save()
     return HttpResponse('')
 
 @login_required(login_url='/login')
-def taskFalse(response, taskid):
-    task = Task.objects.get(id=taskid)
+def taskFalse(request, taskid):
+    #task = Task.objects.get(id=taskid)
+    user = request.user;
+    student = Student.objects.get(user=user)
+    task = student.tasks.all().get(id=taskid)
     task.quickA = False
     task.save()
     return HttpResponse('')

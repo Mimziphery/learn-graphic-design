@@ -4,12 +4,14 @@ from pickle import TRUE
 from tkinter import CASCADE
 from turtle import ondrag
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Course(models.Model):
     name=models.CharField(max_length=200, null=True)
     short_description=models.CharField(max_length=200, null=True)
     long_description=models.CharField(max_length=1000, null=True)
+
 
     def __str__(self):
         return self.name
@@ -26,6 +28,7 @@ class Task(models.Model):
     status = models.CharField(max_length=200, null=True)
     quickA = models.BooleanField(default=TRUE)
     text = models.CharField(max_length=2000, null=True, blank=True)
+    solution = models.FileField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -41,3 +44,7 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.name
+
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    tasks = models.ManyToManyField(Task)

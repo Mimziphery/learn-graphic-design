@@ -5,7 +5,8 @@ from .forms import CreateUserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from main.models import Course
+from main.models import Course, Task, Student
+from django.contrib.auth.models import User
 
 # Create your views here.
 def register(request):
@@ -16,8 +17,14 @@ def register(request):
         if request.method == "POST":
             form=CreateUserForm(request.POST)
             if form.is_valid():
-                form.save()
+                userobj = form.save()
                 user = form.cleaned_data.get('username')
+                tasksAll = Task.objects.all()
+                student = Student.objects.create(user= userobj)
+                for task in tasksAll:
+                    student.tasks.add(task)
+                    
+                student.save()
                 messages.success(request, 'Account was created for '+ user)
                 return redirect('/login')
         
