@@ -127,6 +127,9 @@
                     </ul>
                 </li>
             </ul>
+            
+
+            {% if request.user.is_authenticated %}  
 
             <ul class="navbar-nav ms-auto text-center">
                 <li class="nav-item active">
@@ -148,8 +151,20 @@
                     </ul>
                 </li>
 
-
             </ul>
+            {% else %}
+
+            <ul class="navbar-nav ms-auto text-center">
+                <li class="nav-item active">
+                    <a href="/login" class="fontRoboto nav-link active px-4 my-2 text-white m-auto ">
+                        Login
+                    </a>
+            
+                </li>
+            </ul>
+
+            {% endif%}
+        
 
         </div>
     </nav>
