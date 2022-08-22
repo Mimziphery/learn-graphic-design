@@ -10,9 +10,9 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     courses = Course.objects.all()
     if request.user.is_authenticated:
-        tasks = Task.objects.all().filter(quickA=True)
         user = request.user;
         student = Student.objects.get(user=user)
+        tasks = student.tasks.all()
         return render(request, "home.html", {"tasks": tasks, "courses": courses, "student": student})
     else:
         return render(request, "home.html", {"courses": courses})
@@ -21,18 +21,28 @@ def index(request):
 def remove_task_from_quickAccsses(request,id):
     user = request.user;
     student = Student.objects.get(user=user)
-    task = Task.objects.get(id=id)
-    task.quickA = False
-    task.save()
-    tasks = Task.objects.all().filter(quickA=True)
+    print(student)
+    task = student.tasks.get(id=id)
+    print(task)
+    print(student.tasks.all())
+    student.tasks.remove(task)
+    print(student.tasks.all())
+
+    student.save()
+
+    tasks = student.tasks.all().filter(quickA=True)
+    print(student.tasks.all().filter(quickA=True))
     courses = Course.objects.all()
     return render(request, "home.html", {"tasks": tasks, "courses": courses, "student": student})
 
 @login_required(login_url='/login')
-def tasks(response):
+def tasks(request):
     tasks = Task.objects.all()
     courses = Course.objects.all()
-    return render(response, "tasks.html", {"tasks": tasks, "courses": courses})
+    user = request.user;
+    student = Student.objects.get(user=user)
+   
+    return render(request, "tasks.html", {"tasks": tasks, "courses": courses, "studentTasks": student.tasks})
 
 def illustrationCourse(response):
     courses = Course.objects.all()
@@ -87,27 +97,36 @@ def task(response, taskid):
 
 @login_required(login_url='/login')
 def taskTrue(request, taskid):
-    #task = Task.objects.get(id=taskid)
     user = request.user;
     student = Student.objects.get(user=user)
-    task = student.tasks.all().get(id=taskid)
-    task.quickA = True
-    task.save()
+    task = Task.objects.get(id=taskid)
+    student.tasks.add(task)
+    student.save()
     return HttpResponse('')
 
 @login_required(login_url='/login')
 def taskFalse(request, taskid):
-    #task = Task.objects.get(id=taskid)
     user = request.user;
     student = Student.objects.get(user=user)
-    task = student.tasks.all().get(id=taskid)
-    task.quickA = False
-    task.save()
+    task = student.tasks.get(id=taskid)
+    student.tasks.remove(task)
+    student.save()
     return HttpResponse('')
     
 @login_required(login_url='/login')
-def taskFinished(response, taskid):
-    task = Task.objects.get(id=taskid)
+def taskFinished(request, taskid):
+    user = request.user;
+    student = Student.objects.get(user=user)
+    
+    task = student.tasks.get(id=taskid)
+    
+    student.tasks.remove(task)
+    
+    
     task.status = "Submited today"
-    task.save()
+
+    student.tasks.add(task)
+   
+
+    student.save()
     return HttpResponse('')

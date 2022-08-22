@@ -61,7 +61,7 @@
             <td><a href="tasks/{{task.id}}" style="text-decoration: none; color: inherit;">{{task.course}}<a></td>
             <td><a href="tasks/{{task.id}}" style="text-decoration: none; color: inherit;">{{task.deadline}}<a></td>
             <td><a href="tasks/{{task.id}}" style="text-decoration: none; color: inherit;">{{task.status}}<a></td>
-            <td style="text-align: center;"><input class="form-check-input" type="checkbox" value="{{task.id}}" id="flexCheckDefault"  {% if task.quickA == True %} checked {% endif %} onclick="checkBox(this)"></td
+            <td style="text-align: center;"><input class="form-check-input" type="checkbox" value="{{task.id}}" id="flexCheckDefault"  {% if task in studentTasks.all %} checked {% endif %} onclick="checkBox(this)"></td
         </tr>
         {% endfor %}
         </tbody>
