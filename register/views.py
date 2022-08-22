@@ -27,6 +27,8 @@ def register(request):
                 student.save()
                 messages.success(request, 'Account was created for '+ user)
                 return redirect('/login')
+            else:
+                print(form.errors)
         
         courses = Course.objects.all()
         return render(request,"register/register.html",{"form": form, "courses": courses})

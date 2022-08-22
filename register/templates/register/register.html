@@ -36,7 +36,13 @@
                     <div class="text-center">
                         <input type="submit" class="btn btn-color px-5 mb-5 w-100" name="Create User" value="Register">
                     </div>
-                    {{form.errors}}
+                    <div id="del">
+                        {{form.errors}}
+                    </div>
+                    
+                    <div id="eMessage">
+                        <p class="fontRoboto text-center" style="color: red;"></p>
+                    </div>
                     <div id="emailHelp" class="form-text text-center mb-5 text-dark">Have an account? <a href="{% url 'loginPage' %}" class="text-dark fw-bold">Login here</a>
                     </div>
                 </form>
@@ -46,19 +52,44 @@
     </div>
 </div>
 <script>
-    var fields = document.getElementsByTagName("input");
-    fields[1].placeholder = 'Username';
-    fields[2].placeholder = 'Email';
-    fields[3].placeholder = 'Password';
-    fields[4].placeholder = 'Confirm Password';
+    window.onload = function(){
+        var errors = document.getElementsByClassName("errorlist");
 
-    var i=0;
-    for(var field in fields){
-        if(i===5) break;
-        fields[field].className += ' form-control';
-        i++;
+        
+            
 
+        if(typeof errors === 'undefined'){
 
+        }
+        else{
+            var del = document.getElementById("del");
+            for(var i=0; i<errors.length; i++){
+                var errorMessage = errors[i].firstChild.innerHTML;
+
+                var errorMessagePlace = document.getElementById("eMessage");
+                errorMessagePlace.firstElementChild.innerHTML = errorMessage;
+
+            
+
+        
+        }
+        del.remove();
+            
+        }
+        
+        var fields = document.getElementsByTagName("input");
+        fields[1].placeholder = 'Username';
+        fields[2].placeholder = 'Email';
+        fields[3].placeholder = 'Password';
+        fields[4].placeholder = 'Confirm Password';
+
+        var i=0;
+        for(var field in fields){
+            if(i===5) break;
+            fields[field].className += ' form-control';
+            i++;
+        }
     }
+    
 </script>
 {% endblock %}
