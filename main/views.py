@@ -2,7 +2,8 @@ import imp
 from unicodedata import name
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Course, Lesson, Task, Student, TaskStudent
+from .models import Course, Lesson, Solution, Task, Student, TaskStudent
+from .forms import UploadFileForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -82,13 +83,20 @@ def typography_lesson(response, lessonName):
 
 @login_required(login_url='/login')
 def task(request, taskid):
+    form=UploadFileForm()
     user = request.user;
     student = Student.objects.get(user=user)
     courses = Course.objects.all()
     task = TaskStudent.objects.get(student=student, task_id=taskid)
     task.status = "Opened today"
     task.save()
-    return render(request, "task.html", {"courses": courses, "studentTask": task})
+
+    
+    if(Solution.objects.filter(student=student, task_id=taskid).exists):
+         solution = Solution.objects.filter(student=student, task_id=taskid)
+         return render(request, "task.html", {"courses": courses, "studentTask": task, "form": form, "solution": solution})
+    
+    return render(request, "task.html", {"courses": courses, "studentTask": task, "form": form })
 
 @login_required(login_url='/login')
 def taskTrue(request, taskid):
@@ -110,10 +118,19 @@ def taskFalse(request, taskid):
     
 @login_required(login_url='/login')
 def taskFinished(request, taskid):
+    courses = Course.objects.all()
     user = request.user;
     student = Student.objects.get(user=user)
-    
-    task = TaskStudent.objects.get(student=student, task_id=id)
-    task.status = "Submited today"
-    task.save()
-    return HttpResponse('')
+    task = TaskStudent.objects.get(student=student, task_id=taskid)
+    form=UploadFileForm()
+    if request.method == 'POST':
+        form=UploadFileForm(request.POST, request.FILES)
+        file=request.FILES['file']
+        solution = Solution.objects.create(student=student, task_id=taskid, solution=file)
+        solution.save()
+        form=UploadFileForm()
+        task.status = "Submited today"
+        task.save()
+        
+    return render(request, "task.html", {"courses": courses, "studentTask": task, "form": form})
+

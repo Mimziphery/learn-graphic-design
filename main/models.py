@@ -54,3 +54,4 @@ class TaskStudent(models.Model):
 class Solution(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True, blank=True)
     solution = models.FileField(null=True, blank=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True, blank=True)

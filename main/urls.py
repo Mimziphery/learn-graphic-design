@@ -13,7 +13,8 @@ urlpatterns = [
     path('tasks/<int:taskid>', views.task, name="task"),
     path('tasks/<int:taskid>/true', views.taskTrue, name="taskTrue"),
     path('tasks/<int:taskid>/false', views.taskFalse, name="taskFalse"),
-    path('tasks/<int:taskid>/submit', views.taskFinished, name="taskFinished"),
+    path('<int:taskid>/submit', views.taskFinished, name="taskFinished"),
     path('<int:id>', views.remove_task_from_quickAccsses, name="remove_task_from_quickAccsses"),
+    
     
 ] 

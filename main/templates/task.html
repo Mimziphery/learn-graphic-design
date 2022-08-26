@@ -13,13 +13,19 @@
         </div>
     </div>
 </div>
+{% if solution.exists %}
+<p>neshto</p>
+{% endif %}
 <div class="container flex mt-5 pt-5 ps-5 border rounded">
-    <form>
-        <label class="h4 fontRoboto text-dark pb-4 fw-bold" for="customFile">Solution: </label>
-        <input type="file" class="form-control w-50" id="customFile" name="customFile"/>
-
-        <button type="submit" class="btn btn-secondary my-5 fontRoboto" style="background-color: #41729F !important;" id="submitButton" name="submitButton" disabled onclick="taskSubmited(this,{{studentTask.task.id}})">Submit</button>
-        <button type="submit" class="btn btn-primary my-5 fontRoboto" style="background-color: white !important; color:#41729F" hidden id="editButton" onclick="taskEdit(this)">Edit</button>
+    <form method="POST" action="{% url 'taskFinished' studentTask.task.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!--<label class="h4 fontRoboto text-dark pb-4 fw-bold" for="customFile">Solution: </label>
+        <input type="file" class="form-control w-50" id="customFile" name="customFile"/>-->
+        {{form.file}}
+        
+        <input type="Submit" value="Upload" class="btn btn-secondary my-5 fontRoboto" style="background-color: #41729F !important;">
+        <!--<input value="Upload" type="submit" class="btn btn-secondary my-5 fontRoboto" style="background-color: #41729F !important;" id="submitButton" name="submitButton" onclick="taskSubmited(this,{{studentTask.task.id}})">
+        <input type="submit" class="btn btn-primary my-5 fontRoboto" style="background-color: white !important; color:#41729F" hidden id="editButton" onclick="taskEdit(this)">-->
     </form>
 </div>
 {% endblock %}
