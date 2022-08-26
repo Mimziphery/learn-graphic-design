@@ -53,15 +53,15 @@
         </tr>
         </thead>
         <tbody>
-            {% for task in tasks %}
+            {% for taskStudent in tasks %}
         <tr class="text-dark">
-            <th scope="row">{{task.id}}</th>
-            <td><a href="tasks/{{task.id}}" style="text-decoration: none; color: inherit;">{{task.type}}<a></td>
-            <td><a href="tasks/{{task.id}}" style="text-decoration: none; color: inherit;">{{task.name}}<a></td>
-            <td><a href="tasks/{{task.id}}" style="text-decoration: none; color: inherit;">{{task.course}}<a></td>
-            <td><a href="tasks/{{task.id}}" style="text-decoration: none; color: inherit;">{{task.deadline}}<a></td>
-            <td><a href="tasks/{{task.id}}" style="text-decoration: none; color: inherit;">{{task.status}}<a></td>
-            <td style="text-align: center;"><input class="form-check-input" type="checkbox" value="{{task.id}}" id="flexCheckDefault"  {% if task in studentTasks.all %} checked {% endif %} onclick="checkBox(this)"></td
+            <th scope="row">{{taskStudent.task.id}}</th>
+            <td><a href="tasks/{{taskStudent.task.id}}" style="text-decoration: none; color: inherit;">{{taskStudent.task.type}}<a></td>
+            <td><a href="tasks/{{taskStudent.task.id}}" style="text-decoration: none; color: inherit;">{{taskStudent.task.name}}<a></td>
+            <td><a href="tasks/{{taskStudent.task.id}}" style="text-decoration: none; color: inherit;">{{taskStudent.task.course}}<a></td>
+            <td><a href="tasks/{{taskStudent.task.id}}" style="text-decoration: none; color: inherit;">{{taskStudent.task.course}}<a></td>
+            <td><a href="tasks/{{taskStudent.task.id}}" style="text-decoration: none; color: inherit;">{{taskStudent.status}}<a></td>
+            <td style="text-align: center;"><input class="form-check-input" type="checkbox" value="{{taskStudent.task.id}}" id="flexCheckDefault"  {% if taskStudent.quickA %} checked {% endif %} onclick="checkBox(this)"></td
         </tr>
         {% endfor %}
         </tbody>

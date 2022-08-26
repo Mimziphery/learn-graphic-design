@@ -21,14 +21,11 @@ class Task(models.Model):
         ('Homework', 'Homework'),
         ('Group Project', 'Group Project')
     )
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+    course=models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
     type = models.CharField(max_length=200, null = True, choices = TYPE)
     name = models.CharField(max_length=200, null = True)
     deadline = models.DateTimeField(auto_now_add=False, null= True, editable=True)
-    status = models.CharField(max_length=200, null=True)
-    quickA = models.BooleanField(default=TRUE)
     text = models.CharField(max_length=2000, null=True, blank=True)
-    solution = models.FileField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -47,4 +44,13 @@ class Lesson(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    tasks = models.ManyToManyField(Task)
+
+class TaskStudent(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True, blank=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True, blank=True)
+    status = models.CharField(max_length=200, null=True, default='NEW')
+    quickA = models.BooleanField(default=True)
+
+class Solution(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True, blank=True)
+    solution = models.FileField(null=True, blank=True)

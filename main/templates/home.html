@@ -42,25 +42,27 @@
 <section section class="container-xxl flex pt-5">
     <p class="h4 fontRoboto text-dark pb-4 fw-bold">Quick Access: </p>
     <div class="row container">
-        {% for task in student.tasks.all %}
+        {% for taskStudent in tasks %}
+        {% if taskStudent.quickA %}
         <div class="p-2 row border rounded m-5 col-md-4 window mx-auto" style="width:350px; height: 230px;">
             <div class="row" style="position: relative;">
-                <a href="{% url 'remove_task_from_quickAccsses' task.id %}">
+                <a href="{% url 'remove_task_from_quickAccsses' taskStudent.task.id %}">
                     <button type="button" class="btn-close pull-right row" aria-label="Close"
                     style="display: block; position:absolute; top:-7px; right:-5px;" onclick="deletefromHomePage(this)"></button>
                 </a>
             </div>
             <div>
-                <a href="tasks/{{task.id}}" style="text-decoration: none;">
+                <a href="tasks/{{taskStudent.task.id}}" style="text-decoration: none;">
                     {% load static %}
                     <img src="{% static 'main/folder.png' %}" style="height: 40px; width: 50px;" class="ms-2 mt-3 row">
                     <p hidden> {{task.id}}
-                    <p class="fontRoboto text-dark row ps-2 pt-3 ms-2 fw-bold">{{task.name}}</p>
-                    <p class="fontRoboto text-dark row ps-2 ms-2 fw-lighter">{{task.course}}</p>
-                    <p class="fontRoboto text-dark row ps-2 ms-2 fw-lighter">{{task.status}}</p>
+                    <p class="fontRoboto text-dark row ps-2 pt-3 ms-2 fw-bold">{{taskStudent.task.name}}</p>
+                    <p class="fontRoboto text-dark row ps-2 ms-2 fw-lighter">{{taskStudent.task.course}}</p>
+                    <p class="fontRoboto text-dark row ps-2 ms-2 fw-lighter">{{taskStudent.status}}</p>
                 </a>
             </div> 
         </div>
+        {% endif %}
         {% endfor %}
     </div>
     {%endif%}
