@@ -1,6 +1,6 @@
 import imp
 from unicodedata import name
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Course, Lesson, Solution, Task, Student, TaskStudent
 from .forms import UploadFileForm
@@ -88,15 +88,17 @@ def task(request, taskid):
     student = Student.objects.get(user=user)
     courses = Course.objects.all()
     task = TaskStudent.objects.get(student=student, task_id=taskid)
-    task.status = "Opened today"
-    task.save()
+    if(task.status!="Submited today"):
+        task.status = "Opened today"
+        task.save()
 
     
-    if(Solution.objects.filter(student=student, task_id=taskid).exists):
-         solution = Solution.objects.filter(student=student, task_id=taskid)
+    if(Solution.objects.filter(student=student, task_id=taskid).exists()):
+         solution = Solution.objects.get(student=student, task_id=taskid)
+         print(solution.name)
          return render(request, "task.html", {"courses": courses, "studentTask": task, "form": form, "solution": solution})
     
-    return render(request, "task.html", {"courses": courses, "studentTask": task, "form": form })
+    return render(request, "task.html", {"courses": courses, "studentTask": task, "form": form})
 
 @login_required(login_url='/login')
 def taskTrue(request, taskid):
@@ -126,11 +128,17 @@ def taskFinished(request, taskid):
     if request.method == 'POST':
         form=UploadFileForm(request.POST, request.FILES)
         file=request.FILES['file']
-        solution = Solution.objects.create(student=student, task_id=taskid, solution=file)
+        if(Solution.objects.filter(student=student, task_id=taskid).exists()):
+            solution = Solution.objects.get(student=student, task_id=taskid);
+            solution.delete()
+        solution = Solution.objects.create(student=student, task_id=taskid, solution=file, name=file.name)
+        print(solution.name)
         solution.save()
         form=UploadFileForm()
         task.status = "Submited today"
         task.save()
+        return redirect('/tasks/' + str(taskid))
+       
         
-    return render(request, "task.html", {"courses": courses, "studentTask": task, "form": form})
+    return render(request, "task.html", {"courses": courses, "studentTask": task, "form": form, "solution": solution})
 
